@@ -1,0 +1,26 @@
+{
+  "name": "tienda-bsale-backend",
+  "version": "1.0.0",
+  "description": "Ejercicio para postular al cargo de Desarrollador en Bsale",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bsale",
+    "backend",
+    "api",
+    "apirest"
+  ],
+  "author": "Christian Farias Aguila",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
