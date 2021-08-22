@@ -2,9 +2,9 @@ const { Op } = require("sequelize");
 const { product, category } = require('../models');
 
 // Constantes.
-const LIMITE = { MIN: 10, MAX: 100, DEFAULT: 20 };
+const LIMITE = { MIN: 5, MAX: 100, DEFAULT: 20 };
 const PAGINACION = { MIN: 1 };
-const CARACTERES_BUSQUEDA = { MIN: 2, MAX: 20 };
+const CARACTERES_BUSQUEDA = { MIN: 1, MAX: 20 };
 
 function calcularPaginacion(limite, pagina) {
   // Limite y cantidad de registros a omitir.
@@ -44,9 +44,8 @@ function obtenerProductos(parametros) {
     }
   }
 
-  console.log(filtros);
-
-  const resultados = product.findAll({
+  console.log("Filtros:", filtros);
+  const resultados = product.findAndCountAll({
     include: { model: category, as: "Category" },
     where: filtros,
     limit: cantRegistros,
