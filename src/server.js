@@ -10,8 +10,8 @@ app.use(cors());
 app.use(logger);
 
 // Rutas.
-const productsRouter = require('./routes/products');
-app.use("/api/products", productsRouter);
+const APIRouter = require('./routes/api');
+app.use("/api", APIRouter);
 
 // Middleware para ruta no encontrada.
 const defaultHandler = require('./middleware/default');

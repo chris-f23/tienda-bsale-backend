@@ -30,23 +30,40 @@ function calcularPaginacion(limite, pagina) {
   return [_cantRegistros, _cantRegistrosOmitir];
 }
 
-function obtenerProductos(parametros) {
+function obtenerProductos({
+  cantidad,
+  pagina,
+  busqueda,
+  categoria
+}) {
   // Calcula la cantidad de registros y cantidad de registros a omitir en la consulta.
-  let [cantRegistros, cantRegistrosOmitir] = calcularPaginacion(parametros.limit, parametros.page);
+  let [cantRegistros, cantRegistrosOmitir] = calcularPaginacion(cantidad, pagina);
 
   let filtros = {};
+  let filtroCategoria = {};
 
   // Filtrar mediante busqueda de caracteres en el nombre de los productos.
   // TODO: Coincidir con otros atributos.
-  if (parametros.search && parametros.search.length >= CARACTERES_BUSQUEDA.MIN) {
+  if (busqueda && busqueda.length >= CARACTERES_BUSQUEDA.MIN) {
     filtros.name = {
-      [Op.substring]: parametros.search.substring(0, CARACTERES_BUSQUEDA.MAX + 1).toLowerCase()
+      [Op.substring]: busqueda.substring(0, CARACTERES_BUSQUEDA.MAX + 1).toLowerCase()
     }
   }
 
-  console.log("Filtros:", filtros);
+  // Filtrar por categoria.
+  if (categoria && categoria.length > 0) {
+    filtroCategoria.name = {
+      [Op.substring]: categoria.toLowerCase()
+    }
+  }
+
+  console.log("Filtros:", filtros, filtroCategoria);
   const resultados = product.findAndCountAll({
-    include: { model: category, as: "Category" },
+    include: {
+      model: category,
+      as: "Category",
+      where: filtroCategoria
+    },
     where: filtros,
     limit: cantRegistros,
     offset: cantRegistrosOmitir
